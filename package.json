@@ -1,0 +1,22 @@
+{
+  "name": "worker_threads",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app-worker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/refreakk/worker_threads.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/refreakk/worker_threads/issues"
+  },
+  "homepage": "https://github.com/refreakk/worker_threads#readme",
+  "dependencies": {
+    "batch-promises": "^0.0.3"
+  }
+}

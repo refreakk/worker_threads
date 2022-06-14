@@ -1,5 +1,6 @@
 const factorial = require('./factorial');
 const  { Worker } = require('worker_threads');
+const batchPromises = require('batch-promises');
 
 const compute = (array) => {
     return new Promise((resolve, reject) => {
@@ -24,17 +25,23 @@ const compute = (array) => {
 
 const main = async () => {
     try {
+        let arr = [[25, 20, 19, 48, 30, 50, 60, 70], [25, 20, 19, 48, 30, 50, 60, 70], [25, 20, 19, 48, 30, 50, 60, 70], [25, 20, 19, 48, 30, 50, 60, 70], [25, 20, 19, 48, 30, 50, 60, 70], [25, 20, 19, 48, 30, 50, 60, 70], [25, 20, 19, 48, 30, 50, 60, 70], [25, 20, 19, 48, 30, 50, 60, 70], [25, 20, 19, 48, 30, 50, 60, 70], [25, 20, 19, 48, 30, 50, 60, 70]];
+
         performance.mark('start');
-        const result = await Promise.all([
-            compute([25, 20, 19, 48, 30, 50, 60, 70]),
-            compute([25, 20, 19, 48, 30, 50, 60, 70]),
-            compute([25, 20, 19, 48, 30, 50, 60, 70]),
-            compute([25, 20, 19, 48, 30, 50, 60, 70])
-        ]);
-        console.log(result);
+
+        const result = await batchPromises(2, arr, i => new Promise((resolve, reject) => {
+            const res = compute(i);
+            resolve(res);
+
+        })).then(results => {
+            console.log(results); // [1,2,3,4,5]
+        });
+
+        console.log('результат: ', result);
         performance.mark('end');
         performance.measure('main', 'start', 'end');
         console.log(performance.getEntriesByName('main').pop());
+        
     } catch (err) {
         console.error(err.message);
     }
